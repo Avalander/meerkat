@@ -1,5 +1,4 @@
-import app from 'Meerkat/main'
-import h from 'snabbdom/h'
+import { app, h } from 'Meerkat/main'
 
 
 // Init
@@ -15,8 +14,6 @@ const delay = dt => new Promise((resolve) => {
 	setTimeout(resolve, dt)
 })
 
-const constant = (fn, value) => () => fn(value)
-
 const increment = (state) => ({
 	...state,
 	count: state.count + 1,
@@ -27,13 +24,13 @@ const decrement = (state) => ({
 	count: state.count - 1,
 })
 
-const incrementLater = (state) =>
+const incrementLater = dispatch => () =>
 	delay(500)
-		.then(constant(increment, state))
+		.then(() => dispatch(increment))
 
-const decrementLater = (state) =>
+const decrementLater = dispatch => () =>
 	delay(500)
-		.then(constant(decrement, state))
+		.then(() => dispatch(decrement))
 
 
 // Render
@@ -52,7 +49,7 @@ const render = (state, dispatch) =>
 		h('div', [
 			Button({
 				text: 'Inc. later',
-				onClick: () => dispatch(incrementLater),
+				onClick: incrementLater(dispatch),
 			}),
 			Button({
 				text: 'Inc.',
@@ -64,7 +61,7 @@ const render = (state, dispatch) =>
 			}),
 			Button({
 				text: 'Dec. Later',
-				onClick: () => dispatch(decrementLater),
+				onClick: decrementLater(dispatch),
 			}),
 		]),
 	])

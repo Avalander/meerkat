@@ -9,6 +9,7 @@ module.exports = {
 	mode: 'development',
 	entry: {
 		counter: path.join(examples, 'counter.js'),
+		cat: path.join(examples, 'cat.js'),
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
@@ -38,6 +39,11 @@ module.exports = {
 			template: path.join(examples, 'counter.html'),
 			filename: 'counter.html',
 			chunks: [ 'counter' ],
+		}),
+		new HtmlWebpackPlugin({
+			template: path.join(examples, 'cat.html'),
+			filename: 'cat.html',
+			chunks: [ 'cat' ],
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NamedModulesPlugin(),
